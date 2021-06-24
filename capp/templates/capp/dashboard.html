@@ -1,0 +1,103 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .checked {
+      color: orange;
+    }
+    body {
+      background-image: url("https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .background-banner {
+      background-image: url('https://res.cloudinary.com/sanitarium/image/fetch/q_auto/https://www.sanitarium.com.au/getmedia%2Fae51f174-984f-4a70-ad3d-3f6b517b6da1%2Ffruits-vegetables-healthy-fats.jpg%3Fwidth%3D1180%26height%3D524%26ext%3D.jpg');
+      height: 300px;
+      width: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position:  relative;
+      
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">FoodieZone</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse d-flex align-items-center" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto align-items-center">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'orders' %}">Orders <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item text-white ml-3">
+          <h5 class="m-0">Hi {{user.username}}!</h5>
+        </li>
+      </ul>
+      <form method="post" class="nav-item d-flex ml-auto align-items-center m-0" style="width: 40vw;"
+        action="{% url 'search' %}">
+        {% csrf_token %}
+        <input type="text" name="search" placeholder="search here" class="form-control">
+        <input type="submit" value="search" class="btn btn-primary ml-2">
+      </form>
+      <form class="form-inline my-2 ml-3">
+        <a class="btn btn-outline-success mr-2" href="{% url 'cartpage' %}">My Cart</a>
+        <a class="btn btn-outline-success" href="{% url 'logout' %}">Logout</a>
+      </form>
+    </div>
+  </nav>
+  
+  <div class="background-banner"></div>
+
+  <div class="container">
+    <div class="row" >
+      {{msg}}
+    </div>
+  </div>>
+
+  <div class="container">
+    <div class="row">
+
+      {% for i in restaurants %}
+      <div class="col-3">
+        <div class="card">
+          <img class="card-img-top" src="{{i.image.url}}">
+          <div class="card-body">
+            <h5 class="card-title">{{i.resname}}</h5>
+            <p class="mb-1"><b>Ratings:</b> &nbsp;{{i.ratings}}</p>
+            <a href="{% url 'menu' i.id %}" class="btn btn-primary">Menu</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+  {% for message in messages %}
+  <div>
+
+    <script>
+      alert('{{ message }}');
+    </script>
+
+  </div>
+  {% endfor %}
+
+  <div style="background-color: red;" >
+    {{alertmess}}
+  </div>
+</body>
+
+</html>
