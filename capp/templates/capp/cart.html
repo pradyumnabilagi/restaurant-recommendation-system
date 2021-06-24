@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <style>
+            body {
+                background-image: url("https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
+        </style>
+    </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">FoodieZone</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'orders' %}">Orders <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb align-items-center">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">My Cart</li>
+        </ol>
+    </nav>
+
+    <div class="container py-4">
+        <div class="row mb-3">
+            {% for i in cartitems %}
+                <div class="col-3">
+                    <form name="quantityform" method="post" action="{% url 'addtocart' i.id %}">
+                        {% csrf_token %}
+                        <div class="card">
+                            <img class="card-img-top" src="{{i.menu.image.url}}" alt="Card image cap">
+                            <div class="card-body">
+                                <p><b>Restaurant</b> <span class="float-right">{{i.menu.restaurants.resname}}</span></p>
+                                <p><b>Item</b> <span class="float-right">{{i.menu.dname}}</span></p>
+                                <p><b>Price</b> <span class="float-right">{{i.menu.price}}</span></p>
+                                <p><b>Quantity</b> <span class="float-right">{{i.menu.quantity}}</span></p>
+                                <p><b>Amount</b> <span class="float-right">{{i.menu.amount}}</span></p>
+                                <a class="btn btn-danger float-right" href="{% url 'delete' i.id %}">Delete</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="p-3 bg-dark text-white d-flex justify-content-between align-items-center">
+            <div>Cart Total: {{c}}</div>
+            <div>Preparation Time: {{r}}</div>
+            <div>Total delivery time: {{y}}</div>
+            <a class="btn btn-info" href="{% url 'placeorder' %}" >Place Order</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        .w3-button {
+            width: 50px;
+        }
+        body {
+            background-image: url("https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">FoodieZone</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'orders' %}">Orders <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-outline-success" href="{% url 'cartpage' %}">My Cart</a>
+                <a class="btn btn-outline-success ml-2" href="{% url 'logout' %}">Logout</a>
+            </form>
+        </div>
+    </nav>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Menu</li>
+        </ol>
+    </nav>
+
+    <div class="container">
+        <h4 class="text-center my-5"><b>Welcome to {{rest.resname}}!</b></h4>
+        <div class="row">
+            {% for i in menus %}
+                <div class="col-4">
+                    <form name="quantityform" method="post" action="{% url 'addtocart' i.id %}">
+                        {% csrf_token %}
+                        <div class="card">
+                            <img class="card-img-top" src="{{i.image.url}}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{i.dname}} <span class="float-right"><b>Price:</b> {{i.price}}</span></h5>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col"><b>Qty:</b></div>
+                                    <div class="col-5"><input class="form-control" type="number" id="num" name="quantity" value=0 #qua></div>
+                                </div>
+                                <button class="btn btn-success float-right" type="submit">Add to Cart</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
